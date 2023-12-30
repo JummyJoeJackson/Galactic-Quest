@@ -70,7 +70,7 @@ def create_button(x, y, text, color):
 
 
 def roll_die(player, max_roll):
-    roll = randrange(1, max_roll + 1)
+    roll = randrange(0, max_roll + 1)
     print("Rolling Die:")
     time.sleep(0.75)
     for i in range(1, 4):
@@ -83,16 +83,16 @@ def roll_die(player, max_roll):
 
 def explore_planet(player, planet):
     resource = choice(list(planet.resources.keys()))
-    if planet.resources[resource] == 0:
-        print(f"\n\033[1m{player.name}\033[0m explored {planet.name} but found no {resource}.")
-    else:
+    try:
         amount = roll_die(player, planet.resources[resource])
         player.resources[resource] += amount
         player.power += amount
-        if amount > 0:
+        if amount:
             print(f"\n\033[1m{player.name}\033[0m explored {planet.name} and found {amount} {resource}.")
         else:
             print(f"\n\033[1m{player.name}\033[0m explored {planet.name} but found no {resource}.")
+    except ValueError:
+        print(f"\n\033[1m{player.name}\033[0m explored {planet.name} but found no {resource}.")
 
 
 def establish_colony(player, planet):
